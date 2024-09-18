@@ -20,8 +20,9 @@ export default defineConfig({
       insertTypesEntry: true,
       include: ["src/**/*.ts"],
     }),
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     eslint({
-      include: ["src/**/*.ts", "spec/**/*.js", "src/**/*.tsx", "src/**/*.jsx"],
+      include: ["src/**/*.ts", "spec/**/*.ts"],
     }),
   ],
 });
