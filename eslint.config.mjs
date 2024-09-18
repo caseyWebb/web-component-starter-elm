@@ -7,11 +7,6 @@ export default tseslint.config(
   {
     ignores: ["dist/"],
   },
-  {
-    rules: {
-      "@typescript-eslint/switch-exhaustiveness-check": "error",
-    },
-  },
   eslint.configs.recommended,
   ...tseslint.configs.strictTypeChecked,
   {
