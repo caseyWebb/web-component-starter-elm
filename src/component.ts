@@ -1,3 +1,5 @@
+// import { Elm } from "./Component.elm";
+
 class MyComponent extends HTMLElement {
   static observedAttributes = ["data-first-name", "data-last-name"];
 
@@ -6,23 +8,31 @@ class MyComponent extends HTMLElement {
     this.attachShadow({ mode: "open" });
   }
 
+  #elm: Elm.ElmApp | null = null;
+
   connectedCallback() {
-    this.#render();
+    this.#elm = Elm.Main.init({
+      node: this.shadowRoot as unknown as HTMLElement,
+      flags: this.#getFlags(),
+    });
   }
 
   attributeChangedCallback() {
-    this.#render();
+    if (!this.#elm) {
+      console.warn("Elm not initialized!");
+      return;
+    }
+    this.#elm.ports.interopToElm.send({
+      msg: "flagsUpdated",
+      ...this.#getFlags(),
+    });
   }
 
-  #render() {
-    const firstName = this.getAttribute("data-first-name") || "";
-    const lastName = this.getAttribute("data-last-name") || "";
-
-    if (this.shadowRoot) {
-      this.shadowRoot.innerHTML = `
-          <p>Hello ${firstName} ${lastName}!</p>
-        `;
-    }
+  #getFlags(): Elm.Flags {
+    return {
+      firstName: this.getAttribute("data-first-name") || "",
+      lastName: this.getAttribute("data-last-name") || "",
+    };
   }
 }
 
