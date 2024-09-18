@@ -1,4 +1,4 @@
-// import { Elm } from "./Component.elm";
+import { Elm } from "./Component.elm";
 
 class MyComponent extends HTMLElement {
   static observedAttributes = ["data-first-name", "data-last-name"];
@@ -11,10 +11,11 @@ class MyComponent extends HTMLElement {
   #elm: Elm.ElmApp | null = null;
 
   connectedCallback() {
-    this.#elm = Elm.Main.init({
-      node: this.shadowRoot as unknown as HTMLElement,
-      flags: this.#getFlags(),
-    });
+    const outer = document.createElement("div");
+    const inner = document.createElement("div");
+    outer.appendChild(inner);
+    this.#elm = Elm.Component.init({ node: inner, flags: this.#getFlags() });
+    this.shadowRoot?.appendChild(outer);
   }
 
   attributeChangedCallback() {

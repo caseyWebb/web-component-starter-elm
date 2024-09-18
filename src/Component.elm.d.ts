@@ -27,7 +27,7 @@ export type ToElm = { firstName : string; lastName : string; msg : "flagsUpdated
 
 export type Flags = { firstName : string; lastName : string };
 
-export namespace Main {
+export namespace Component {
   function init(options: { node?: HTMLElement | null; flags: Flags }): ElmApp;
 }
 
